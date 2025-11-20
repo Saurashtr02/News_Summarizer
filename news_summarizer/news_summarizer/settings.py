@@ -13,30 +13,18 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 
 
-
-# username - saurashtra 
-# pass - computing03
-# email - saurashtra03@gmail.com
-
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "django-insecure-q5mhc!$wzjc=2votn3!0r$g-ezq9c_^&e7rwyf8d7ckif-la$$"
 
-# SECURITY WARNING: don't run with debug turned on in production!
+
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
 
-# Application definition
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -45,10 +33,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'rest_framework',  # Django REST Framework
-    'core',  # Core app for main features
-    'accounts',  # Add the 'accounts' app here
-
+    'rest_framework',  
+    'core',
+    'accounts',  
 ]
 
 MIDDLEWARE = [
@@ -67,7 +54,7 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         'DIRS': [
-                    BASE_DIR / 'news_summarizer/templates',  # This is for global templates
+                    BASE_DIR / 'news_summarizer/templates',  
                 ],  
         "APP_DIRS": True,
         "OPTIONS": {
@@ -84,8 +71,6 @@ TEMPLATES = [
 WSGI_APPLICATION = "news_summarizer.wsgi.application"
 
 
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
     "default": {
@@ -94,9 +79,6 @@ DATABASES = {
     }
 }
 
-
-# Password validation
-# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -114,8 +96,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/5.1/topics/i18n/
 
 LANGUAGE_CODE = "en-us"
 
@@ -126,25 +106,22 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = "static/"
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
+
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-LOGIN_REDIRECT_URL = '/accounts/profile'  # Redirect to homepage after login
-LOGOUT_REDIRECT_URL = '/accounts/login/'  # Redirect to login page after logout
+LOGIN_REDIRECT_URL = '/accounts/profile'  
+LOGOUT_REDIRECT_URL = '/accounts/login/' 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 
 MEDIA_URL = '/media/'
-# MEDIA_ROOT = BASE_DIR / 'media'
+
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
