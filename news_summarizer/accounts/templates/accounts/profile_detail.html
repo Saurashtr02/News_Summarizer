@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Details</title>
+    <!-- Add Bootstrap 4 CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .profile-card {
+            margin-top: 20px;
+        }
+        .profile-img {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+        }
+        .card-title {
+            font-weight: bold;
+        }
+        .saved-articles {
+            margin-top: 20px;
+        }
+        .saved-articles ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .saved-articles li {
+            background: #f7f7f7;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .btn-logout {
+            margin-top: 20px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+        }
+        
+    </style>
+</head>
+<body>
+
+     <!-- Navbar -->
+     <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">News Summarizer</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/accounts/profile/">Profile</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <!-- Profile Info -->
+            <div class="col-md-8 profile-card">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <!-- Profile Picture -->
+                        {% if user_profile.profile_picture %}
+                            <img src="{{ user_profile.profile_picture.url }}" alt="Profile Picture" class="profile-img">
+                        {% else %}
+                            <img src="https://via.placeholder.com/150" alt="Profile Picture" class="profile-img">
+                        {% endif %}
+                        
+                        <h3 class="card-title mt-3">{{ user_profile.user.username }}</h3>
+                        <p><strong>Email:</strong> {{ user_profile.user.email }}</p>
+
+                        <p><strong>Bio:</strong></p>
+                        <p>{{ user_profile.bio|default:"No bio available" }}</p>
+
+                        <!-- Edit Profile Button -->
+                        <a href="{% url 'update_profile' %}" class="btn btn-primary">Edit Profile</a>
+
+                        <!-- Logout Button -->
+                        <form method="POST" action="{% url 'logout' %}" class="mt-4">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-logout btn">Logout</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row justify-content-center saved-articles">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Saved Articles</h4>
+                        {% if saved_articles %}
+                            <ul>
+                                {% for article in saved_articles %}
+                                  
+                                    <div class="card">
+                                        <img src="{{ article.image_url }}"class="card-img-top" alt="...">
+                                        <div class="card-body">
+                                          <h5 class="card-title">{{ article.title }}</h5>
+                                          <p class="card-text">{{ article.description }}</p>
+                                          <a href="{{ article.url }}"  class="btn btn-primary">Read More</a>
+                                          <form method="POST" action="{% url 'remove_saved_article' article.id %}" style="display:inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                                        </form>
+                                        </div>
+                                      </div>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p>No saved articles yet.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Add Bootstrap 4 JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>
