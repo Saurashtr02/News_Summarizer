@@ -1,15 +1,15 @@
-# fine_tune_bart.py
+
 
 from transformers import BartForConditionalGeneration, BartTokenizer
 from datasets import load_dataset
 from transformers import Trainer, TrainingArguments
 
-# Load pretrained BART model and tokenizer
-model_name = 'facebook/bart-base'  # Using the smaller BART model
+
+model_name = 'facebook/bart-base' 
 model = BartForConditionalGeneration.from_pretrained(model_name)
 tokenizer = BartTokenizer.from_pretrained(model_name)
 
-# Load your dataset (CNN/Daily Mail or your custom dataset)
+
 dataset = load_dataset('cnn_dailymail', '3.0.0')
 
 def tokenize_function(examples):
@@ -20,11 +20,11 @@ def tokenize_function(examples):
 
 dataset = dataset.map(tokenize_function, batched=True)
 
-# Set up training arguments
+
 training_args = TrainingArguments(
-    output_dir='./results',  # Save model checkpoints here
-    num_train_epochs=1,  # You can increase epochs if you have more time
-    per_device_train_batch_size=2,  # Adjust batch size to fit memory
+    output_dir='./results', 
+    num_train_epochs=1,  
+    per_device_train_batch_size=2,  
     logging_dir='./logs',
     save_steps=1000,
     save_total_limit=2,
@@ -34,12 +34,12 @@ trainer = Trainer(
     model=model,
     args=training_args,
     train_dataset=dataset['train'],
-    eval_dataset=dataset['test'],  # Optional validation
+    eval_dataset=dataset['test'],  
 )
 
-# Fine-tune the model
+
 trainer.train()
 
-# Save the fine-tuned model
+
 model.save_pretrained('./fine_tuned_bart')
 tokenizer.save_pretrained('./fine_tuned_bart')
